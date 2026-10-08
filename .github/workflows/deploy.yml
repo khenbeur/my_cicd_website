@@ -1,0 +1,31 @@
+# name: The display title for the deployment pipeline in GitHub Actions
+name: CD Web Deployment Pipeline
+
+# on: Triggers this workflow on pushes to main
+on:
+  push:
+    branches: [ "main" ]
+    
+# permissions: Explicitly sets security access controls granted to the automatically generated GITHUB_TOKEN
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v5
+        
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+          
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
